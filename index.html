@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDGA: Aligning ML Explanations with User Knowledge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #ffffff;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .badge {
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #ffffff, #a8d8ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.3;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Video Section */
+        .video-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
+
+        .video-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .video-title h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .video-title .play-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-title .play-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
+            margin-left: 2px;
+        }
+
+        /* Abstract Section */
+        .abstract-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .abstract-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .abstract-section h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, #e94560, #ff6b6b);
+            border-radius: 2px;
+        }
+
+        .abstract-section p {
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Features Section */
+        .features-section {
+            margin-bottom: 3rem;
+        }
+
+        .features-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .features-section h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 28px;
+            background: linear-gradient(180deg, #e94560, #ff6b6b);
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-3px);
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .video-section {
+                padding: 1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero, .video-section, .abstract-section, .features-section {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .video-section {
+            animation-delay: 0.1s;
+        }
+
+        .abstract-section {
+            animation-delay: 0.15s;
+        }
+
+        .features-section {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">PDGA</div>
+            <div class="badge">Demonstration</div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Aligning Machine Learning Explanations with User Knowledge through PDP-Guided Data Augmentation</h1>
+            <p class="subtitle">A No-Code System for Incorporating Domain Knowledge into ML Models</p>
+            <p>
+                PDGA enables users to intuitively edit Partial Dependence Plots (PDPs) to incorporate their domain knowledge into machine learning models. By directly editing PDP curves through a graphical interface, users can align model explanations with their expertise—without requiring any ML knowledge.
+            </p>
+        </section>
+
+        <section class="video-section">
+            <div class="video-title">
+                <div class="play-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </div>
+                <h2>System Demonstration</h2>
+            </div>
+            <div class="video-container">
+                <video controls preload="metadata">
+                    <source src="pdga_demo.mp4" type="video/mp4">
+                    Your browser does not support the video tag. Please download the video file directly.
+                </video>
+            </div>
+        </section>
+
+        <section class="abstract-section">
+            <h2>Abstract</h2>
+            <p>
+                We introduce PDP-Guided Data Augmentation (PDGA), a system for retraining machine learning (ML) models to align their predictions with user knowledge. PDGA focuses on partial dependence plots (PDPs), a commonly used explainable AI method that visualizes the effect of features by plotting predictions across varying feature values. PDGA enables intuitive PDP editing, allowing users to incorporate their knowledge into a model without requiring ML expertise. Users can directly edit PDP curves on the screen so that the modified curves reflect their knowledge. The system then retrains the model with augmented data so that its PDP aligns with the user-specified curve. We demonstrate its effectiveness using real-world datasets, showing that the discrepancy between the model's PDP and the user-specified PDP is reduced by over 90% while largely maintaining or improving predictive performance.
+            </p>
+        </section>
+
+        <section class="features-section">
+            <h2>Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Intuitive PDP Editing</h3>
+                    <p>Directly edit PDP curves through a graphical interface to reflect your domain knowledge.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>No ML Expertise Required</h3>
+                    <p>Domain experts can incorporate their knowledge without coding or ML background.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Preserves Performance</h3>
+                    <p>Largely maintains predictive accuracy while aligning explanations with user knowledge.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
